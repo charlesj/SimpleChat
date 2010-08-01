@@ -50,7 +50,9 @@ namespace RooChat.Controllers
         {
             if (path == "Default")
                 return RedirectToAction("Index", "Chatrooms", new { id=1 });
-            ViewData["chatroom"] = Chatroom.FindByUrl(path);
+            var chat = Chatroom.FindByUrl(path);
+            ViewData["chatroom"] = chat;
+            ViewData["last_id"] = chat.Messages.Last().Id;
             return View();
         }
         

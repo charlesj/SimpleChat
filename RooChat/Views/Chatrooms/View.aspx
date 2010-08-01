@@ -12,7 +12,9 @@
         
     </div>
     <div id="conversation-container">
-        <div id="conversation"></div>
+        <div id="conversation">
+
+        </div>
     </div>
     <div id="send-message">
         <form id="message-form" action="/Chatrooms/AddMessage/<%= chatroom.Id %>" method="post">
@@ -31,7 +33,7 @@
         </form>
     </div>
     <script language="javascript" type="text/javascript">
-        var last_id = -1;
+        var last_id = <%= ViewData["last_id"] %>;
         $(document).ready(function () {
 
 
@@ -91,7 +93,7 @@
                     success: function (text) { $('#conversation').append(text); }
                 });
             }
-            var holdTheInterval = setInterval(checkForMessages, 1000);
+            var holdTheInterval = setInterval(checkForMessages, 2000);
         });
     </script>
 </asp:Content>
