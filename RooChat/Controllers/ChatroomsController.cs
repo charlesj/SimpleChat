@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using RooChat.Models;
-using RooChat.Views;
 
 namespace RooChat.Controllers
 {
@@ -53,20 +52,7 @@ namespace RooChat.Controllers
             if (path == "Default")
                 return RedirectToAction("Index", "Chatrooms", new { id=1 });
             var chat = Chatroom.FindByUrl(path);
-
-            var model = new MessagesViewModel();
-            model.Chatroom = chat;
-            model.Messages = chat.Messages.ToList();
-            //TODO: Fix This, as it's *really* bad.
-            try
-            { 
-                model.LastId = chat.Messages.LastOrDefault().Id; 
-            }
-            catch 
-            { 
-                model.LastId = -1; 
-            }
-            return View(model);
+            return View(chat);
         }
         
         public ActionResult AddMessage(int id, string name, string message)
