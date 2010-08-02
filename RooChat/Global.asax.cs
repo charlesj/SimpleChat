@@ -17,8 +17,8 @@ namespace RooChat
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
                 "FetchMessages",
-                "chatrooms/FetchMessages/{chat_id}/{last_m_id}",
-                new { controller = "Chatrooms", action = "FetchMessages", chat_id = 1, last_m_id = -1 }
+                "chatrooms/FetchMessages/{chat_url}/{last_m_id}",
+                new { controller = "Chatrooms", action = "FetchMessages", chat_url = String.Empty, last_m_id = -1 }
             );
 
             routes.MapRoute(

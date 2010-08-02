@@ -81,9 +81,10 @@ namespace RooChat.Controllers
             }
         }
 
-        public JsonResult FetchMessages(int chat_id)
+        public JsonResult FetchMessages(string chat_url, int last_m_id)
         {
-            var messages = Message.FetchFor(chat_id);
+            //var messages = Message.FetchFor(chat_id);
+            var messages = Message.FetchAfter(last_m_id, chat_url);
             //System.Threading.Thread.Sleep(3000); //Simulate a high latency connection
             return this.Json(messages.Select(msg => new { message_id = msg.Id }).ToList(), JsonRequestBehavior.AllowGet);
         }
