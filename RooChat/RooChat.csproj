@@ -80,6 +80,7 @@
     <Content Include="Content\bg.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Views\Chatrooms\FetchMessage.ascx" />
     <Content Include="Views\Chatrooms\FetchMessages.aspx" />
     <Content Include="Views\Chatrooms\Index.aspx" />
     <Content Include="Views\Chatrooms\MessagesDisplay.ascx" />

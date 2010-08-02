@@ -94,20 +94,16 @@ namespace RooChat.Controllers
             }
         }
 
-        public ActionResult FetchMessages(int chat_id, int last_m_id)
+        public JsonResult FetchMessages(int chat_id)
         {
-            var model = new MessagesViewModel();
-            model.Messages = Message.FetchAfter(last_m_id, chat_id);
-            try
-            {
-                model.LastId = model.Messages.LastOrDefault().Id;
-            }
-            catch
-            {
-                model.LastId = -1;
-            }
+            var messages = Message.FetchFor(chat_id);
             //System.Threading.Thread.Sleep(3000); //Simulate a high latency connection
-            return View(model);
+            return this.Json(messages.Select(msg => new { message_id = msg.Id }).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ViewResult FetchMessage(int id)
+        {
+            return View(Message.Find(id));
         }
 
         public ActionResult Transcript(int id)

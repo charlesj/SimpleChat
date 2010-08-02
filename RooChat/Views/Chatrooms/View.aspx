@@ -16,10 +16,6 @@
          <% Html.RenderPartial("MessagesDisplay", Model); %>
         </div>
     </div>
-    <div id="messages-container">&nbsp;
-        <div id="message-sent" class="app-message">Message Sent</div>
-        <div id="message-error" class="app-message">There was a problem sending the message</div>
-    </div>
     <div id="send-message">
         <form id="message-form" action="/Chatrooms/AddMessage/<%= Model.Chatroom.Id %>" method="post">
             <fieldset>
@@ -33,6 +29,10 @@
             <input type="submit" id="submit-button" value="Send" name="submit-button" />
             </fieldset>
         </form>
+    </div>
+    <div id="messages-container">&nbsp;
+        <div id="message-sent" class="app-message">Message Sent</div>
+        <div id="message-error" class="app-message">There was a problem sending the message</div>
     </div>
     <script language="javascript" type="text/javascript">
         var last_id = <%= Model.LastId %>;
@@ -63,43 +63,37 @@
                     $("#message").val('');
                 }
             });
-
-            jQuery().ajaxStart(function () {
-                $("#message-form").fadeOut("slow");
-            });
-
-            jQuery().ajaxStop(function () {
-                $("#message-form").fadeIn("fast");
-            });
-
-            jQuery().ajaxError(function (e, xhr, settings, exception) {
-                //$("message-error").text("asdf");//settings.url);
-                $("#message-error").show();
-            });
-
-
-            //periodic updater
-            function checkForMessages() {
-                //we need to change the last message id on the fly
-                //we can also define the chatroom id earlier
-                //build the url here
-                var url = "/Chatrooms/FetchMessages/<%= Model.Chatroom.Id %>/" + last_id;
-                $.ajax({
-                    method: 'get',
-                    url: url,
-                    dataType: 'text',
-                    success: function (text) { $('#conversation').append(text); }
-                });
-                $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
-            }
-            var holdTheInterval = setInterval(checkForMessages, 1000);
+           
 
             function fetchMessages(){
-                var url = "/Chatrooms/FetchMessages/<%= Model.Chatroom.Id %>/" + last_id;
+                var url = "/Chatrooms/FetchMessages/<%= Model.Chatroom.Id %>/";
+                //Fetch Message Id List
                 $.getJSON(url, null, function(data){
-                    
+                    //parse json
+                    $.each(data, function(index, singleLine) {
+                        //Insure that they are all displayed.
+                        var check_id = "#m-" + singleLine.message_id;
+                        if( $(check_id).length < 1 ){
+                            var message_url = "/chatrooms/FetchMessage/" + singleLine.message_id;
+                            //If not, display them
+                            $.ajax({
+                                method: 'get',
+                                url: message_url,
+                                dataType: 'text',
+                                success: function (text) { $('#conversation').append(text); }
+                            });
+                        }
+                    });
                 });
+
+                //We still need to scroll to the bottom of the thing
+                $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
             }
+
+            var periodicCheck = setInterval(fetchMessages, 1000);
+
+            //do this once the page loads as well: 
+            $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
         });
     </script>
 </asp:Content>
