@@ -83,7 +83,10 @@ namespace RooChat.Controllers
             var model = new MessagesViewModel();
             model.Messages = Message.FetchAfter(last_m_id, chat_id);
             model.LastId = model.Messages.Last().Id;
-            return View(model);
+            if (Request.IsAjaxRequest())
+                return View(model);
+            else
+                return RedirectToAction("View", new { id = chat_id });
         }
 
         public ActionResult Transcript(int id)

@@ -43,11 +43,6 @@
                 var f = $("#message-form");
                 var action = f.attr("action");
                 var sform = f.serialize();
-                //                $.post(action, sform,
-                //                    function (response) {
-                //                        $("#message-sent").text(response).css('display', 'inline').show('slow');
-                //                    }
-                //                );
                 $.ajax({
                     url: action,
                     success: function (response) { $("#message-sent").text(response).css('display', 'inline').show().delay(5000).fadeOut('slow'); },
@@ -85,9 +80,9 @@
             //periodic updater
             function checkForMessages() {
                 //we need to change the last message id on the fly
-                var url = "/Chatrooms/FetchMessages/<%= Model.Chatroom.Id %>/" + last_id;
                 //we can also define the chatroom id earlier
                 //build the url here
+                var url = "/Chatrooms/FetchMessages/<%= Model.Chatroom.Id %>/" + last_id;
                 $.ajax({
                     method: 'get',
                     url: url,
@@ -96,7 +91,7 @@
                 });
                 $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
             }
-            var holdTheInterval = setInterval(checkForMessages, 2000);
+            var holdTheInterval = setInterval(checkForMessages, 1000);
         });
     </script>
 </asp:Content>

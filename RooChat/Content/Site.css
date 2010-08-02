@@ -1,3 +1,4 @@
+* {margin:0; padding:0}
 body{ margin:0; padding: 0; background-color: #99b5e5; font-family: Calibri, Verdana, Sans-Serif; background-image:url(/Content/bg.png); background-repeat:repeat-x;}
 #header{ margin-top:0;}
 #header a{ color: #fff; text-decoration:none;}
@@ -13,7 +14,7 @@ a:visited, a:active, a{ color: #184aaf; }
 .message h3{ margin:0px; padding:0px; font-size: 10px; float: left; width: 50px; text-align:right; }
 .message-content{ margin-left: 55px;border-left: 1px solid #000; padding-left: 3px;  border-bottom: 1px dotted #000;}
 .message p{margin:0; padding-bottom: 5px;}
-.app-message{ display: inline; padding: 2px; margin: 0px; margin-left: 5px;}
+.app-message{ display: inline; padding: 2px; margin: 0px; margin-left: 5px; width:50%;}
 #message-sent{ background-color: #99b6e6; border: 1px solid #556688; }
 #message-error{ border: 1px solid #885555; background-color: #e69999; }
 .message-time{ font-size: 9px; float: right;}
