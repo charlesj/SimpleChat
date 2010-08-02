@@ -31,7 +31,7 @@
     </div>
     <script language="javascript" type="text/javascript">
         $(document).ready(function () {
-
+            //document.write(window.location.pathname);
             //finish setup for javascript handling
             //hide submit button and messages
             $("#messages-container").append('<span id="message-sent" class="app-message">Message Sent</div>');
@@ -69,6 +69,16 @@
                 });
                 return false;
             });
+
+            function FindCurrentChatUrl()
+            {   
+                return window.location.pathname.replace("/","");
+            }
+
+            function FindLastMessageId()
+            {
+                return $(".message:last").attr('id').replace("m-","");
+            }
 
             //Periodical check for messages
             function fetchMessages(){
