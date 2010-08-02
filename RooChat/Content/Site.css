@@ -10,7 +10,8 @@ ol, ul, li {margin-left: 15px; }
 #MainContent{ border: 1px solid #000; background-color: #fff; width:90%; margin-top:0; margin: auto; padding: 10px;}
 #chatroom-url{ font-size: 10px;float: right;}
 a:visited, a:active, a{ color: #184aaf; }
-#conversation-container{ height: 300px; overflow-y: scroll;  padding: 10px;}
+#conversation-container{padding: 10px;}
+.conversation-container-javascript{ height: 300px; overflow-y: scroll;  }
 #create-form{ margin:10px; }
 .message{margin: 0px; clear: both; }
 .message h3{ margin:0px; padding:0px; font-size: 10px; float: left; width: 50px; text-align:right; }
@@ -25,6 +26,7 @@ a:visited, a:active, a{ color: #184aaf; }
 #major-message{ background-color: #99b6e6; border: 3px solid #556688; }
 #major-error{ border: 3px solid #885555; background-color: #e69999; }
 input{ padding: 3px;background-color: #d6e5ff; border:0px; border-bottom: 1px solid #000; }
+#messages-container{ margin: 3px; padding: 2px; }
 
 /* Styles for validation helpers
 -----------------------------------------------------------*/

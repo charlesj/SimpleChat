@@ -90,6 +90,7 @@ namespace RooChat.Controllers
             }
             else
             {
+                TempData["message"] = "Message Added";
                 return Redirect("/" + chat.Url);
             }
         }
