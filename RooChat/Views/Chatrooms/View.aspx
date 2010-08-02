@@ -47,6 +47,7 @@
                     url: action,
                     success: function (response) { $("#message-sent").text(response).css('display', 'inline').show().delay(5000).fadeOut('slow'); },
                     data: sform,
+                    type: "POST",
                     error: function(){ $("#message-error").css('display', 'inline').show().delay(5000).fadeOut('slow'); },
                 });
                 return false;

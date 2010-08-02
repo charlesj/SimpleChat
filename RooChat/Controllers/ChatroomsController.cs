@@ -57,14 +57,22 @@ namespace RooChat.Controllers
             var model = new MessagesViewModel();
             model.Chatroom = chat;
             model.Messages = chat.Messages.ToList();
-            model.LastId = chat.Messages.LastOrDefault().Id;
+            //TODO: Fix This, as it's *really* bad.
+            try
+            { 
+                model.LastId = chat.Messages.LastOrDefault().Id; 
+            }
+            catch 
+            { 
+                model.LastId = -1; 
+            }
             return View(model);
         }
         
-        [ValidateInput(false)]
-        public string AddMessage(int id, string name, string message)
+        public ActionResult AddMessage(int id, string name, string message)
         {
             var db = new RooChatDataContext();
+            var chat = Chatroom.Find(id);
             var mess = new Message
             {
                 Chat_id = id,
@@ -75,18 +83,31 @@ namespace RooChat.Controllers
             };
             db.Messages.InsertOnSubmit(mess);
             db.SubmitChanges();
-            return "Message Received";
+
+            if (Request.IsAjaxRequest())
+            {
+                return new ContentResult { Content = "Message Received" };
+            }
+            else
+            {
+                return Redirect("/" + chat.Url);
+            }
         }
 
         public ActionResult FetchMessages(int chat_id, int last_m_id)
         {
             var model = new MessagesViewModel();
             model.Messages = Message.FetchAfter(last_m_id, chat_id);
-            model.LastId = model.Messages.Last().Id;
-            if (Request.IsAjaxRequest())
-                return View(model);
-            else
-                return RedirectToAction("View", new { id = chat_id });
+            try
+            {
+                model.LastId = model.Messages.LastOrDefault().Id;
+            }
+            catch
+            {
+                model.LastId = -1;
+            }
+            //System.Threading.Thread.Sleep(3000); //Simulate a high latency connection
+            return View(model);
         }
 
         public ActionResult Transcript(int id)
