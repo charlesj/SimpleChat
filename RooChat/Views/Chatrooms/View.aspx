@@ -93,6 +93,13 @@
                 $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
             }
             var holdTheInterval = setInterval(checkForMessages, 1000);
+
+            function fetchMessages(){
+                var url = "/Chatrooms/FetchMessages/<%= Model.Chatroom.Id %>/" + last_id;
+                $.getJSON(url, null, function(data){
+                    
+                });
+            }
         });
     </script>
 </asp:Content>
