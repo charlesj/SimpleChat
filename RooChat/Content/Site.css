@@ -7,7 +7,7 @@ h2 { margin: 3px; border-bottom: 1px solid #000; }
 #MainContent{ border: 1px solid #000; background-color: #fff; width:90%; margin-top:0; margin: auto; padding: 10px;}
 #chatroom-url{ font-size: 10px;float: right;}
 a:visited, a:active, a{ color: #184aaf; }
-#conversation-container{ height: 500px; overflow-y: scroll;  padding: 10px;}
+#conversation-container{ height: 300px; overflow-y: scroll;  padding: 10px;}
 #create-form{ margin:10px; }
 .message{margin: 0px; clear: both; }
 .message h3{ margin:0px; padding:0px; font-size: 10px; float: left; width: 50px; text-align:right; }

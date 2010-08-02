@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using RooChat.Models;
+using RooChat.Views;
 
 namespace RooChat.Controllers
 {
@@ -46,14 +47,18 @@ namespace RooChat.Controllers
             return Redirect("/" + chat.Url);
         }
 
-        public ActionResult View(string path)
+        [ActionName("View")]
+        public ActionResult View_Method(string path)
         {
             if (path == "Default")
                 return RedirectToAction("Index", "Chatrooms", new { id=1 });
             var chat = Chatroom.FindByUrl(path);
-            ViewData["chatroom"] = chat;
-            ViewData["last_id"] = chat.Messages.Last().Id;
-            return View();
+
+            var model = new MessagesViewModel();
+            model.Chatroom = chat;
+            model.Messages = chat.Messages.ToList();
+            model.LastId = chat.Messages.LastOrDefault().Id;
+            return View(model);
         }
         
         [ValidateInput(false)]
@@ -75,11 +80,10 @@ namespace RooChat.Controllers
 
         public ActionResult FetchMessages(int chat_id, int last_m_id)
         {
-            var messages = Message.FetchAfter(last_m_id, chat_id);
-            var lid = messages[messages.Count - 1].Id;
-            ViewData["messages"] = messages;
-            ViewData["lid"] = lid;
-            return View();
+            var model = new MessagesViewModel();
+            model.Messages = Message.FetchAfter(last_m_id, chat_id);
+            model.LastId = model.Messages.Last().Id;
+            return View(model);
         }
 
         public ActionResult Transcript(int id)
