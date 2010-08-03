@@ -19,8 +19,6 @@ namespace RooChat.Controllers
 
         public RedirectResult Create(string name, string url)
         {
-            if (url == string.Empty || url == null)
-                url = "PleaseSetThisAfterFirstSave";
             if (name == string.Empty || name == null)
                 name = "RooChat";
 
@@ -37,11 +35,11 @@ namespace RooChat.Controllers
                 Url = url,
                 CreatedOn = DateTime.Now
             };
-
-            db.Chatrooms.InsertOnSubmit(chat);
-            db.SubmitChanges();
-            if (chat.Url == "PleaseSetThisAfterFirstSave")
+            if (!chat.HasValidUrl())
+            {
                 chat.BuildUrl();
+            }
+            db.Chatrooms.InsertOnSubmit(chat);
             db.SubmitChanges();
             return Redirect("/" + chat.Url);
         }

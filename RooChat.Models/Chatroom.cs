@@ -31,10 +31,32 @@ namespace RooChat.Models
                      select rooms).Count() > 0);
         }
 
-        public string BuildUrl()
+        public bool HasValidUrl()
         {
-            Url = Convert.ToBase64String(BitConverter.GetBytes(Id));
-            return Url;
+            return (Url != null && Url != "Default" && Url != string.Empty && !UrlExists(Url));
+        }
+
+        public void BuildUrl()
+        {
+            int url_length = 3;
+            string characters = "0123456789abcdefghijklmnopqrstuvwxyz";
+            Random r = new Random(DateTime.Now.Millisecond);
+            var sb = new StringBuilder();
+            for (int i = 0; i < url_length; i++)
+            {
+                sb.Append(characters[r.Next(characters.Length - 1)]);
+            }
+            while( Chatroom.UrlExists(sb.ToString()))
+            {
+                sb = new StringBuilder();
+                for (int i = 0; i < url_length; i++)
+                {
+                    sb.Append(characters[r.Next(characters.Length - 1)]);
+                }
+            }
+            Url = sb.ToString();
+            //Url = Convert.ToBase64String(BitConverter.GetBytes(Id));
+            //return Url;
         }
 
 
