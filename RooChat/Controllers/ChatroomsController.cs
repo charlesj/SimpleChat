@@ -59,39 +59,42 @@ namespace RooChat.Controllers
         {
             var db = new RooChatDataContext();
             var chat = Chatroom.Find(id);
-            var mess = new Message
+            string return_message = string.Empty;
+            if (message.Trim() != string.Empty)
             {
-                Chat_id = id,
-                Name = name,
-                Content = message,
-                SentOn = DateTime.Now,
-                Ip = "NotLogged"
-            };
-            db.Messages.InsertOnSubmit(mess);
-            db.SubmitChanges();
-
-            if (Request.IsAjaxRequest())
-            {
-                return new ContentResult { Content = "Message Received" };
+                var mess = new Message
+                {
+                    Chat_id = id,
+                    Name = name,
+                    Content = message,
+                    SentOn = DateTime.Now,
+                    Ip = "NotLogged"
+                };
+                db.Messages.InsertOnSubmit(mess);
+                db.SubmitChanges();
+                return_message = "Message Received";
             }
             else
             {
-                TempData["message"] = "Message Added";
+                return_message = "Ignoring Empty Message";
+            }
+            if (Request.IsAjaxRequest())
+            {
+                return new ContentResult { Content = return_message };
+            }
+            else
+            {
+                TempData["message"] = return_message;
                 return Redirect("/" + chat.Url);
             }
         }
 
-        public JsonResult FetchMessages(string chat_url, int last_m_id)
+        public ViewResult FetchMessages(string chat_url, int last_m_id)
         {
             //var messages = Message.FetchFor(chat_id);
             var messages = Message.FetchAfter(last_m_id, chat_url);
             //System.Threading.Thread.Sleep(3000); //Simulate a high latency connection
-            return this.Json(messages.Select(msg => new { message_id = msg.Id }).ToList(), JsonRequestBehavior.AllowGet);
-        }
-
-        public ViewResult FetchMessage(int id)
-        {
-            return View(Message.Find(id));
+            return View(messages);
         }
 
         public ActionResult Transcript(int id)

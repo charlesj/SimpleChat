@@ -80,7 +80,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Application.js" />
+    <Content Include="Scripts\jquery.periodic.js" />
     <Content Include="Views\Chatrooms\FetchMessage.ascx" />
+    <Content Include="Views\Chatrooms\FetchMessages.aspx" />
     <Content Include="Views\Chatrooms\Index.aspx" />
     <Content Include="Views\Chatrooms\MessagesDisplay.ascx" />
     <Content Include="Views\Chatrooms\Transcript.aspx" />

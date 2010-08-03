@@ -2,8 +2,10 @@
     //document.write(window.location.pathname);
     //finish setup for javascript handling
     //hide submit button and messages
-    $("#messages-container").append('<span id="message-sent" class="app-message">Message Sent</div>');
-    $("#messages-container").append('<span id="message-error" class="app-message">There was a problem sending the message</div>');
+    $("#messages-container").append('<span id="processing"><img src="/Content/processing.gif" alt="processing" /> Sending...</span>');
+    $("#messages-container").append('<span id="message-sent" class="app-message">Message Sent</span>');
+    $("#messages-container").append('<span id="message-error" class="app-message">There was a problem sending the message</span>');
+    $("#processing").hide();
     $("#message-sent").hide();
     $("#message-error").hide();
     $("#submit-button").hide();
@@ -28,48 +30,49 @@
         var f = $("#message-form");
         var action = f.attr("action");
         var sform = f.serialize();
+        SendingMessage();
         $.ajax({
             url: action,
             success: function (response) { $("#message-sent").text(response).css('display', 'inline').show().delay(5000).fadeOut('slow'); },
             data: sform,
             type: "POST",
-            error: function(){ $("#message-error").css('display', 'inline').show().delay(5000).fadeOut('slow'); },
+            error: function () { $("#message-error").css('display', 'inline').show().delay(5000).fadeOut('slow'); },
+            complete: function () { MessageSent() }
         });
         return false;
     });
 
-    function FindCurrentChatUrl()
-    {   
-        return window.location.pathname.replace("/","");
+    function SendingMessage() {
+        $("#message").attr("disabled", "disabled");
+        $("#processing").show();
+    }
+    function MessageSent() {
+        $("#message").removeAttr("disabled");
+        $("#processing").hide();
     }
 
-    function FindLastMessageId()
-    {
-        return $(".message:last").attr('id').replace("m-","");
+    function FindCurrentChatUrl() {
+        return window.location.pathname.replace("/", "");
+    }
+
+    function FindLastMessageId() {
+        return $(".message:last").attr('id').replace("m-", "");
     }
 
     //Periodical check for messages
-    function fetchMessages(){
-        var url = "/Chatrooms/FetchMessages/" + FindCurrentChatUrl() + "/" + FindLastMessageId();
-        //Fetch Message Id List
-        $.getJSON(url, null, function(data){
-            //parse json
-            $.each(data, function(index, singleLine) {
-                //Insure that they are all displayed.
-                var check_id = "#m-" + singleLine.message_id;
-                if( $(check_id).length < 1 ){
-                    var message_url = "/chatrooms/FetchMessage/" + singleLine.message_id;
-                    //If not, display them
-                    $.ajax({
-                        method: 'get',
-                        url: message_url,
-                        dataType: 'text',
-                        success: function (text) { $('#conversation').append(text); }
-                    });
-                }
+    var executing_fetch = false;
+    function fetchMessages() {
+        if (!executing_fetch) {
+            executing_fetch = true;
+            var fetch_action = "/Chatrooms/FetchMessages/" + FindCurrentChatUrl() + "/" + FindLastMessageId();
+            $.ajax({
+                url: fetch_action,
+                success: function (response) { $("#conversation").append(response); },
+                type: "GET",
+                error: function () { $("#message-error").css('display', 'inline').show().delay(5000).fadeOut('slow'); },
+                complete: function () { executing_fetch = false; }
             });
-        });
-
+        }
         //We still need to scroll to the bottom of the thing
         $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
     }
