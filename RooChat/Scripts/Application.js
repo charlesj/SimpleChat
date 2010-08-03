@@ -56,7 +56,14 @@
     }
 
     function FindLastMessageId() {
-        return $(".message:last").attr('id').replace("m-", "");
+        //var mid = $(".message:last").attr('id').replace("m-", "");
+        if ($(".message:last").length == 0) {
+            return -1;
+        }
+        else {
+            return $(".message:last").attr('id').replace("m-", "");
+        }
+
     }
 
     //Periodical check for messages

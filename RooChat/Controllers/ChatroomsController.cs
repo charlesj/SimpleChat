@@ -14,6 +14,7 @@ namespace RooChat.Controllers
 
         public ActionResult Index()
         {
+            Chatroom.RemoveOldRooms();
             return View();
         }
 
