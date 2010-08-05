@@ -25,8 +25,11 @@ a:visited, a:active, a{ color: #184aaf; }
 .major-general{ padding: 5px; width: 75%; margin:auto; margin-top: 10px; margin-bottom: 10px;}
 #major-message{ background-color: #99b6e6; border: 3px solid #556688; }
 #major-error{ border: 3px solid #885555; background-color: #e69999; }
-input{ padding: 3px;background-color: #d6e5ff; border:0px; border-bottom: 1px solid #000; }
+input, textarea{ padding: 3px; margin: 4px; background-color: #d6e5ff; border:0px; }
+
 #messages-container{ margin: 3px; padding: 2px; }
+
+.odd{ background-color: #d6e5ff;}
 
 /* Styles for validation helpers
 -----------------------------------------------------------*/

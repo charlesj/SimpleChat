@@ -4,7 +4,7 @@
 	RooChat: <%= Model.Name %>
 </asp:Content>
 <asp:Content ID="ScriptIncludes" ContentPlaceHolderID="HeadContent" runat="server">
-    <script src="/scripts/Application.js" type="text/javascript" ></script>
+    <script src="/scripts/View.js" type="text/javascript" ></script>
 </asp:Content>
 <asp:Content ID="MainPage" ContentPlaceHolderID="MainContent" runat="server">
     <div id="chatroom-url"><strong>url:</strong> <a href="/<%= Model.Url %>">http://chat.umkc.edu/<%= Model.Url %></a></div>
@@ -20,9 +20,9 @@
         <form id="message-form" action="/Chatrooms/AddMessage/<%= Model.Id %>" method="post">
             <h2>Send Message</h2>
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" value="YourName" /> 
+            <input type="text" id="name" name="name" value="Unnamed" /> 
             <br />
-            <textarea id="message" rows="5" cols="100" name="message" style="background-color: #d6e5ff; border:1px dashed #556688;"></textarea>
+            <textarea id="message" rows="5" cols="100" name="message"></textarea>
             <br />
             <input type="submit" id="submit-button" value="Send" name="submit-button" />
         </form>

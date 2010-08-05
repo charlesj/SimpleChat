@@ -24,6 +24,8 @@
     $("#conversation-container").addClass('conversation-container-javascript');
     //do this once the page loads to make sure we see the last message
     $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
+    $(".message:odd").addClass('odd');
+
 
     //this submits the form over ajax
     $("#message-form").submit(function () {
@@ -74,7 +76,7 @@
             var fetch_action = "/Chatrooms/FetchMessages/" + FindCurrentChatUrl() + "/" + FindLastMessageId();
             $.ajax({
                 url: fetch_action,
-                success: function (response) { $("#conversation").append(response); },
+                success: function (response) { $("#conversation").append(response); $(".message:odd").addClass('odd'); },
                 type: "GET",
                 error: function () { $("#message-error").css('display', 'inline').show().delay(5000).fadeOut('slow'); },
                 complete: function () { executing_fetch = false; }
