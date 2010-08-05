@@ -80,8 +80,7 @@
     <Content Include="Content\processing.gif" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\Application.js" />
-    <Content Include="Scripts\jquery.periodic.js" />
+    <Content Include="Scripts\View.js" />
     <Content Include="Views\Chatrooms\Message.ascx" />
     <Content Include="Views\Chatrooms\FetchMessages.aspx" />
     <Content Include="Views\Chatrooms\Index.aspx" />
@@ -101,12 +100,6 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\MicrosoftAjax.js" />
-    <Content Include="Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
