@@ -88,7 +88,7 @@
                 },
                 type: "GET",
                 error: function () { $("#message-error").css('display', 'inline').show().delay(5000).fadeOut('slow'); },
-                complete: function () { executing_fetch = false; //let them know they can execute another request}
+                complete: function () { executing_fetch = false; } //let them know they can execute another request
             });
         }
     }

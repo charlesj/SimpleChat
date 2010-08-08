@@ -12,10 +12,12 @@
     
     <p id="NoJavascriptMessages"><strong>Your browser seems to have javascript disabled.  You will need to refresh the page to view any new messages.</strong></p>
     
-    <div id="participants">
-        <% Html.RenderPartial("Participants", Model.ActiveParticipants); %>
+    <div id="participants-container">
+        <h3>Participants</h3>
+        <div id="participants">
+            <% Html.RenderPartial("Participants", Model.ActiveParticipants); %>
+        </div>
     </div>
-    
     <div id="conversation-container">
         <div id="conversation">
          <% Html.RenderPartial("MessagesDisplay", Model.Messages.ToList()); %>
