@@ -28,7 +28,7 @@
         <form id="message-form" action="/Chatrooms/AddMessage/<%= Model.Id %>" method="post">
             <h2>Send Message</h2>
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" value="Unnamed" /> 
+            <input type="text" id="name" name="name" value="<%= (string)ViewData["name"] %>" /> 
             <br />
             <textarea id="message" rows="5" cols="100" name="message"></textarea>
             <br />

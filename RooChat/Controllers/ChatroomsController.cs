@@ -53,8 +53,9 @@ namespace RooChat.Controllers
                 return RedirectToAction("Index", "Chatrooms", new { id=1 });
             var chat = Chatroom.FindByUrl(path);
             Session["pleasesavethis"] = true;
+            
             Participant.UpdateParticipant(chat.Id, Session.SessionID, "Unnamed");
-
+            ViewData["name"] = Participant.GetParticipantName(Session.SessionID);
             return View(Chatroom.Find(chat.Id));
         }
         

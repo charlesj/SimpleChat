@@ -39,5 +39,17 @@ namespace RooChat.Models
             }
               
         }
+
+        public static string GetParticipantName(string session_id)
+        {
+            var db = new RooChatDataContext();
+            var ip = (from participants in db.Participants
+                      where participants.Session_id == session_id
+                      select participants).ToList();
+            if (ip.Count > 0)
+                return ip.Last().Name;
+            else
+                return "Unnamed";
+        }
     }
 }
