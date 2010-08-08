@@ -24,6 +24,8 @@
     $("#conversation-container").addClass('conversation-container-javascript');
     //do this once the page loads to make sure we see the last message
     $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
+    $(".message:odd").addClass('odd');
+
 
     //this submits the form over ajax
     $("#message-form").submit(function () {
@@ -67,21 +69,28 @@
     }
 
     //Periodical check for messages
-    var executing_fetch = false;
+    var executing_fetch = false; //this variable insure that we only have one async request at a time
     function fetchMessages() {
         if (!executing_fetch) {
             executing_fetch = true;
             var fetch_action = "/Chatrooms/FetchMessages/" + FindCurrentChatUrl() + "/" + FindLastMessageId();
             $.ajax({
                 url: fetch_action,
-                success: function (response) { $("#conversation").append(response); },
+                success: function (response) {
+                    $("#conversation").append(response);
+                    if (response.length > 10) {
+                        // shouldn't force scrolling unless there is a new message
+                        // this behavior is far from ideal, so we may want to abstract this out into another method that 
+                        // can better control scrolling.
+                        $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
+                    }
+                    $(".message:odd").addClass('odd');
+                },
                 type: "GET",
                 error: function () { $("#message-error").css('display', 'inline').show().delay(5000).fadeOut('slow'); },
-                complete: function () { executing_fetch = false; }
+                complete: function () { executing_fetch = false; //let them know they can execute another request}
             });
         }
-        //We still need to scroll to the bottom of the thing
-        $("#conversation-container").scrollTop($("#conversation-container")[0].scrollHeight);
     }
     //this actually sets the check for messages.  We're going to check it once a second.
     var periodicCheck = setInterval(fetchMessages, 1000);

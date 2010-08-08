@@ -28,7 +28,7 @@
             <label for="name">Name</label>
             <input type="text" id="name" name="name" value="Unnamed" /> 
             <br />
-            <textarea id="message" rows="5" cols="100" name="message" style="background-color: #d6e5ff; border:1px dashed #556688;"></textarea>
+            <textarea id="message" rows="5" cols="100" name="message"></textarea>
             <br />
             <input type="submit" id="submit-button" value="Send" name="submit-button" />
         </form>
