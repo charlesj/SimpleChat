@@ -36,6 +36,9 @@ namespace RooChat.Models
     partial void InsertMessage(Message instance);
     partial void UpdateMessage(Message instance);
     partial void DeleteMessage(Message instance);
+    partial void InsertParticipant(Participant instance);
+    partial void UpdateParticipant(Participant instance);
+    partial void DeleteParticipant(Participant instance);
     #endregion
 		
 		public RooChatDataContext(string connection) : 
@@ -77,6 +80,14 @@ namespace RooChat.Models
 				return this.GetTable<Message>();
 			}
 		}
+		
+		public System.Data.Linq.Table<Participant> Participants
+		{
+			get
+			{
+				return this.GetTable<Participant>();
+			}
+		}
 	}
 	
 	[Table(Name="dbo.Chatrooms")]
@@ -95,6 +106,8 @@ namespace RooChat.Models
 		
 		private EntitySet<Message> _Messages;
 		
+		private EntitySet<Participant> _Participants;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -112,6 +125,7 @@ namespace RooChat.Models
 		public Chatroom()
 		{
 			this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
+			this._Participants = new EntitySet<Participant>(new Action<Participant>(this.attach_Participants), new Action<Participant>(this.detach_Participants));
 			OnCreated();
 		}
 		
@@ -208,6 +222,19 @@ namespace RooChat.Models
 			}
 		}
 		
+		[Association(Name="FK_Participants_Chatrooms", Storage="_Participants", ThisKey="Id", OtherKey="Chatroom_id", DeleteRule="NO ACTION")]
+		public EntitySet<Participant> Participants
+		{
+			get
+			{
+				return this._Participants;
+			}
+			set
+			{
+				this._Participants.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -235,6 +262,18 @@ namespace RooChat.Models
 		}
 		
 		private void detach_Messages(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.Chatroom = null;
+		}
+		
+		private void attach_Participants(Participant entity)
+		{
+			this.SendPropertyChanging();
+			entity.Chatroom = this;
+		}
+		
+		private void detach_Participants(Participant entity)
 		{
 			this.SendPropertyChanging();
 			entity.Chatroom = null;
@@ -433,6 +472,201 @@ namespace RooChat.Models
 					else
 					{
 						this._Chat_id = default(int);
+					}
+					this.SendPropertyChanged("Chatroom");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[Table(Name="dbo.Participants")]
+	public partial class Participant : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _Chatroom_id;
+		
+		private string _Session_id;
+		
+		private string _Name;
+		
+		private System.DateTime _Last_seen;
+		
+		private EntityRef<Chatroom> _Chatroom;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnChatroom_idChanging(int value);
+    partial void OnChatroom_idChanged();
+    partial void OnSession_idChanging(string value);
+    partial void OnSession_idChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnLast_seenChanging(System.DateTime value);
+    partial void OnLast_seenChanged();
+    #endregion
+		
+		public Participant()
+		{
+			this._Chatroom = default(EntityRef<Chatroom>);
+			OnCreated();
+		}
+		
+		[Column(Name="id", Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[Column(Name="chatroom_id", Storage="_Chatroom_id", DbType="Int NOT NULL")]
+		public int Chatroom_id
+		{
+			get
+			{
+				return this._Chatroom_id;
+			}
+			set
+			{
+				if ((this._Chatroom_id != value))
+				{
+					this.OnChatroom_idChanging(value);
+					this.SendPropertyChanging();
+					this._Chatroom_id = value;
+					this.SendPropertyChanged("Chatroom_id");
+					this.OnChatroom_idChanged();
+				}
+			}
+		}
+		
+		[Column(Name="session_id", Storage="_Session_id", DbType="VarChar(500) NOT NULL", CanBeNull=false)]
+		public string Session_id
+		{
+			get
+			{
+				return this._Session_id;
+			}
+			set
+			{
+				if ((this._Session_id != value))
+				{
+					this.OnSession_idChanging(value);
+					this.SendPropertyChanging();
+					this._Session_id = value;
+					this.SendPropertyChanged("Session_id");
+					this.OnSession_idChanged();
+				}
+			}
+		}
+		
+		[Column(Name="name", Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[Column(Name="last_seen", Storage="_Last_seen", DbType="DateTime NOT NULL")]
+		public System.DateTime Last_seen
+		{
+			get
+			{
+				return this._Last_seen;
+			}
+			set
+			{
+				if ((this._Last_seen != value))
+				{
+					this.OnLast_seenChanging(value);
+					this.SendPropertyChanging();
+					this._Last_seen = value;
+					this.SendPropertyChanged("Last_seen");
+					this.OnLast_seenChanged();
+				}
+			}
+		}
+		
+		[Association(Name="FK_Participants_Chatrooms", Storage="_Chatroom", ThisKey="Chatroom_id", OtherKey="Id", IsForeignKey=true)]
+		public Chatroom Chatroom
+		{
+			get
+			{
+				return this._Chatroom.Entity;
+			}
+			set
+			{
+				Chatroom previousValue = this._Chatroom.Entity;
+				if (((previousValue != value) 
+							|| (this._Chatroom.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Chatroom.Entity = null;
+						previousValue.Participants.Remove(this);
+					}
+					this._Chatroom.Entity = value;
+					if ((value != null))
+					{
+						value.Participants.Add(this);
+						this._Chatroom_id = value.Id;
+					}
+					else
+					{
+						this._Chatroom_id = default(int);
 					}
 					this.SendPropertyChanged("Chatroom");
 				}
