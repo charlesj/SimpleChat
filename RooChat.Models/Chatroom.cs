@@ -69,5 +69,13 @@ namespace RooChat.Models
                         select chatrooms;
             
         }
+
+        public List<Participant> ActiveParticipants
+        {
+            get
+            {
+                return this.Participants.Where(x => x.Last_seen > DateTime.Now.AddSeconds(-10)).ToList();
+            }
+        }
     }
 }

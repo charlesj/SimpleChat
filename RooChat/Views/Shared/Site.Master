@@ -26,6 +26,10 @@
         
         </asp:ContentPlaceHolder>
     </div>
-    <footer></footer>
+    <div id="footer">
+    
+    <!--<p>Session id: <%= Session.SessionID %></p>-->
+    
+    </div>
 </body>
 </html>

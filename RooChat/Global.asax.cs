@@ -22,6 +22,12 @@ namespace RooChat
             );
 
             routes.MapRoute(
+                "Participants",
+                "chatrooms/participants/{url}/{name}",
+                new { controller = "Chatrooms", action = "Participants", url = "none", name = "Unnamed" }
+            );
+
+            routes.MapRoute(
                 "Default", // Route name
                 "chatrooms/{action}/{id}", // URL with parameters
                 new { controller = "Chatrooms", action = "Index", id = UrlParameter.Optional } // Parameter defaults

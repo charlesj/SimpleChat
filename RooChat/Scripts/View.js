@@ -85,4 +85,20 @@
     }
     //this actually sets the check for messages.  We're going to check it once a second.
     var periodicCheck = setInterval(fetchMessages, 1000);
+
+    //Periodical for handling participants
+    var executing_particpants = false;
+    function fetchParticipants() {
+        if (!executing_particpants) {
+            executing_particpants = true;
+            var url = "/Chatrooms/Participants/" + FindCurrentChatUrl() + "/" + $("#name").val();
+            $.ajax({
+                url: url,
+                success: function (response) { $("#participants").html(response); },
+                type: "GET",
+                complete: function () { executing_particpants = false }
+            });
+        }
+    }
+    var participantCheck = setInterval(fetchParticipants, 1000);
 });

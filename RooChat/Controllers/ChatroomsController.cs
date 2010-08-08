@@ -15,6 +15,7 @@ namespace RooChat.Controllers
         public ActionResult Index()
         {
             Chatroom.RemoveOldRooms();
+            Session["pleasesavethis"] = true;
             return View();
         }
 
@@ -51,7 +52,10 @@ namespace RooChat.Controllers
             if (path == "Default")
                 return RedirectToAction("Index", "Chatrooms", new { id=1 });
             var chat = Chatroom.FindByUrl(path);
-            return View(chat);
+            Session["pleasesavethis"] = true;
+            Participant.UpdateParticipant(chat.Id, Session.SessionID, "Unnamed");
+
+            return View(Chatroom.Find(chat.Id));
         }
         
         public ActionResult AddMessage(int id, string name, string message)
@@ -69,6 +73,7 @@ namespace RooChat.Controllers
                     SentOn = DateTime.Now,
                     Ip = "NotLogged"
                 };
+                Participant.UpdateParticipant(id, Session.SessionID, name);
                 db.Messages.InsertOnSubmit(mess);
                 db.SubmitChanges();
                 return_message = "Message Received";
@@ -103,6 +108,14 @@ namespace RooChat.Controllers
             ViewData["chat"] = chat;
             ViewData["messages"] = chat.Messages.ToList();
             return View();
+        }
+
+        public ActionResult Participants(string url, string name)
+        {
+            var chat = Chatroom.FindByUrl(url);
+            Participant.UpdateParticipant(chat.Id, Session.SessionID, name);
+            chat = Chatroom.Find(chat.Id);
+            return View(chat.ActiveParticipants);
         }
     }
 }

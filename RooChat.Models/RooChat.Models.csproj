@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Chatroom.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="Participant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RooChatDataContext.cs" />
     <Compile Include="RooChatDataContext_nongen.cs" />
