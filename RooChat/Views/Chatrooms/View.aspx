@@ -31,6 +31,7 @@
             <input type="text" id="name" name="name" value="<%= (string)ViewData["name"] %>" /> 
             <br />
             <textarea id="message" rows="5" cols="100" name="message"></textarea>
+            <p id="markdown">Use <a href="http://daringfireball.net/projects/markdown/basics">Markdown</a> for formating</p>
             <br />
             <input type="submit" id="submit-button" value="Send" name="submit-button" />
         </form>

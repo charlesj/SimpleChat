@@ -46,8 +46,13 @@ namespace RooChat
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
             RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Session_Start()
+        {
+            //this insures that session id is available.
+            var sid = Session.SessionID;
         }
     }
 }
