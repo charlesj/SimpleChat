@@ -5,7 +5,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RooChat", "RooChat\RooChat.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RooChat.Models", "RooChat.Models\RooChat.Models.csproj", "{65FDA494-DD84-46EF-A43B-CFBA267DCE2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RooChat.Tests", "RooChat.Tests\RooChat.Tests.csproj", "{9B605BD5-6BFC-434B-9622-B655499E0770}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17C09502-4692-45D2-A626-E48CBDD00EA6}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		RooChat.vsmdi = RooChat.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = RooChat.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -19,6 +31,10 @@ Global
 		{65FDA494-DD84-46EF-A43B-CFBA267DCE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65FDA494-DD84-46EF-A43B-CFBA267DCE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65FDA494-DD84-46EF-A43B-CFBA267DCE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B605BD5-6BFC-434B-9622-B655499E0770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B605BD5-6BFC-434B-9622-B655499E0770}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B605BD5-6BFC-434B-9622-B655499E0770}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B605BD5-6BFC-434B-9622-B655499E0770}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
