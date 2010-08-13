@@ -67,7 +67,8 @@ namespace RooChat.Models
                         where chatrooms.CreatedOn < DateTime.Now.AddDays(-3) && 
                             chatrooms.Messages.All(message => (message.SentOn < DateTime.Now.AddDays(-3)))
                         select chatrooms;
-            
+
+            //TODO implement deletion
         }
 
         public List<Participant> ActiveParticipants
