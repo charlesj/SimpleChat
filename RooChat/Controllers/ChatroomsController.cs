@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using RooChat.Models;
+using RooChat.Utils;
 
 namespace RooChat.Controllers
 {
@@ -11,14 +12,14 @@ namespace RooChat.Controllers
     {
         //
         // GET: /Chatrooms/
-
+        [RemoveOldChatroomsFilter]
         public ActionResult Index()
         {
-            Chatroom.RemoveOldRooms();
             Session["pleasesavethis"] = true;
             return View();
         }
 
+        [RemoveOldChatroomsFilter]
         public RedirectResult Create(string name, string url)
         {
             if (name == string.Empty || name == null)
@@ -46,6 +47,7 @@ namespace RooChat.Controllers
             return Redirect("/" + chat.Url);
         }
 
+        [RemoveOldChatroomsFilter]
         [ActionName("View")]
         public ActionResult View_Method(string path)
         {
@@ -58,7 +60,7 @@ namespace RooChat.Controllers
             ViewData["name"] = Participant.GetParticipantName(Session.SessionID);
             return View(Chatroom.Find(chat.Id));
         }
-        
+
         public ActionResult AddMessage(int id, string name, string message)
         {
             var db = new RooChatDataContext();
@@ -119,6 +121,7 @@ namespace RooChat.Controllers
             return View(chat.ActiveParticipants);
         }
 
+        [RemoveOldChatroomsFilter]
         public JsonResult GetAllChatrooms()
         {
             var db = new RooChatDataContext();
