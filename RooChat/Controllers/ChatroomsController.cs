@@ -15,7 +15,6 @@ namespace RooChat.Controllers
         [RemoveOldChatroomsFilter]
         public ActionResult Index()
         {
-            Session["pleasesavethis"] = true;
             return View();
         }
 
@@ -54,7 +53,6 @@ namespace RooChat.Controllers
             if (path == "Default")
                 return RedirectToAction("Index", "Chatrooms", new { id=1 });
             var chat = Chatroom.FindByUrl(path);
-            Session["pleasesavethis"] = true;
             
             Participant.UpdateParticipant(chat.Id, Session.SessionID, "Unnamed");
             ViewData["name"] = Participant.GetParticipantName(Session.SessionID);
