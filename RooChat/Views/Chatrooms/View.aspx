@@ -7,7 +7,7 @@
     <script src="/scripts/View.js" type="text/javascript" ></script>
 </asp:Content>
 <asp:Content ID="MainPage" ContentPlaceHolderID="MainContent" runat="server">
-    <div id="chatroom-url"><strong>url:</strong> <a href="/<%= Model.Url %>">http://chat.umkc.edu/<%= Model.Url %></a></div>
+    <div id="chatroom-url"><strong>url:</strong> <a href="/<%= Request.Url.ToString() %>"><%= Request.Url.ToString() %></a></div>
     <h2><%= Model.Name %></h2>
     
     <p id="NoJavascriptMessages"><strong>Your browser seems to have javascript disabled.  You will need to refresh the page to view any new messages.</strong></p>

@@ -7,11 +7,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 
-    <p>Welcome to RooChat, the easiest way to setup and use a chatroom at UMKC.  Here's the process:</p>
+    <p>Welcome to RooChat, the easiest way to setup and use a chatroom.  Here's the process:</p>
     <ol>
         <li>Enter a name for your chatroom</li>
         <li>If you wish, enter a url.  This is what will appear after chat.umkc.edu.  Example:
-            <blockquote>http://chat.umkc.edu/MostExcellentChatroom</blockquote>
+            <blockquote><%= Request.Url.Host %>/MostExcellentChatroom</blockquote>
         </li>
         <li>Send full url to those who want to join in the chat.</li>
         <li>Chatrooms are automatically deleted after 3 days of non-use.</li>
@@ -22,7 +22,7 @@
     <p><strong>Chatroom Name</strong></p>
     <%= Html.TextBox("name") %>
     <p><strong>Url</strong> (Optional)</p>
-    http://chat.umkc.edu/<%= Html.TextBox("url") %>
+    <%= Request.Url.Host %>/<%= Html.TextBox("url") %>
     <p></p>
     <input type="submit" value="Create" />
     <% Html.EndForm(); %>
