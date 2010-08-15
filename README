@@ -1,0 +1,13 @@
+RooChat is a simple chat web application.
+
+Technology stack:
+	ASP.NET MVC
+	C#
+	SqlServer
+	Linqtosql
+	jquery
+	
+Features:
+	Creation of chatrooms
+	Pure html / javascript (no java, flash, etc.)
+	Graceful degradation with no javascript presence
