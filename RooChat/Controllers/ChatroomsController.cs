@@ -118,14 +118,5 @@ namespace RooChat.Controllers
             chat = Chatroom.Find(chat.Id);
             return View(chat.ActiveParticipants);
         }
-
-        [RemoveOldChatroomsFilter]
-        public JsonResult GetAllChatrooms()
-        {
-            var db = new RooChatDataContext();
-            var results = (from chatrooms in db.Chatrooms
-                           select new { url = chatrooms.Name, name = chatrooms.Url, created_on=chatrooms.CreatedOn, id=chatrooms.Id });
-            return Json(results,"text", JsonRequestBehavior.AllowGet);
-        }
     }
 }

@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RooChat", "RooChat\RooChat.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RooChat.Models", "RooChat.Models\RooChat.Models.csproj", "{65FDA494-DD84-46EF-A43B-CFBA267DCE2E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17C09502-4692-45D2-A626-E48CBDD00EA6}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = RooChat.vsmdi
