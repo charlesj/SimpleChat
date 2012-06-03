@@ -1,10 +1,9 @@
 RooChat is a simple chat web application.
 
 Technology stack:
-	ASP.NET MVC
+	ASP.NET MVC 3
 	C#
-	SqlServer
-	Linqtosql
+	RavenDb
 	jquery
 	
 Features:
