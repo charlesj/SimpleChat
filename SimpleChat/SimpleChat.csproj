@@ -110,6 +110,7 @@
   <ItemGroup>
     <Content Include="Content\bg.png" />
     <Content Include="Content\processing.gif" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\View.js" />

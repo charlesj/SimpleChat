@@ -69,6 +69,7 @@ namespace SimpleChat.RavenStore
             else
             {
                 participant.LastSeen = DateTime.Now;
+                participant.Name = name;
             }
             
             session.SaveChanges();
@@ -98,7 +99,8 @@ namespace SimpleChat.RavenStore
         public List<Message> FetchMessagesAfter(string ChatUrl, int MessageId)
         {
             var chat = this.FindByUrl(ChatUrl);
-            return session.Query<Message>().Where(m => m.Id == chat.Id && m.Id > MessageId).ToList();
+            var rtn = session.Query<Message>().Where(m => m.ChatId == chat.Id && m.Id > MessageId).ToList();
+            return rtn;
         }
     }
 }
