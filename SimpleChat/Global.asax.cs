@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Raven.Client.Document;
 
 namespace SimpleChat
 {
@@ -12,6 +13,8 @@ namespace SimpleChat
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static DocumentStore Store { get; set; }
+
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -47,6 +50,12 @@ namespace SimpleChat
         {
             AreaRegistration.RegisterAllAreas();
             RegisterRoutes(RouteTable.Routes);
+
+            Store = new DocumentStore
+            {
+                ConnectionStringName = "RavenDB",
+            };
+            Store.Initialize();
         }
 
         protected void Session_Start()

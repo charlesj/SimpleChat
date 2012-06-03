@@ -7,7 +7,7 @@ namespace SimpleChat.Models
 {
     public partial class Chatroom
     {
-        public int ChatId { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
         public DateTime CreatedOn { get; set; }

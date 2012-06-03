@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat.RavenStore", "Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat.DataAccess", "SimpleChat.DataAccess\SimpleChat.DataAccess.csproj", "{A3563304-FED7-4090-9E12-1488A26E59AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat.Utilities", "SimpleChat.Utilities\SimpleChat.Utilities.csproj", "{25409A2B-6170-4313-A36D-69A81D147292}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SimpleChat.vsmdi
@@ -34,6 +36,10 @@ Global
 		{A3563304-FED7-4090-9E12-1488A26E59AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3563304-FED7-4090-9E12-1488A26E59AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3563304-FED7-4090-9E12-1488A26E59AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25409A2B-6170-4313-A36D-69A81D147292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25409A2B-6170-4313-A36D-69A81D147292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25409A2B-6170-4313-A36D-69A81D147292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25409A2B-6170-4313-A36D-69A81D147292}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

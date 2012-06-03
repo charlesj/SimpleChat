@@ -43,6 +43,12 @@
     <Compile Include="ISimpleChatRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleChat.Models\SimpleChat.Models.csproj">
+      <Project>{65FDA494-DD84-46EF-A43B-CFBA267DCE2E}</Project>
+      <Name>SimpleChat.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

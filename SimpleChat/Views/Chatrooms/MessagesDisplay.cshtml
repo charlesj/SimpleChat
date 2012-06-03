@@ -1,0 +1,5 @@
+﻿@model List<SimpleChat.Models.Message>
+@foreach (var message in Model)
+{
+    @Html.Partial("Message", message);
+}
