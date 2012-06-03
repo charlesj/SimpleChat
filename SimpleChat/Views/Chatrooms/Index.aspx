@@ -10,7 +10,7 @@
     <p>Welcome to SimpleChat, the easiest way to setup and use a chatroom.  Here's the process:</p>
     <ol>
         <li>Enter a name for your chatroom</li>
-        <li>If you wish, enter a url.  This is what will appear after chat.umkc.edu.  Example:
+        <li>If you wish, enter a url.  This is what will appear after simplechat.apphb.com/.  Example:
             <blockquote><%= Request.Url.Host %>/MostExcellentChatroom</blockquote>
         </li>
         <li>Send full url to those who want to join in the chat.</li>
