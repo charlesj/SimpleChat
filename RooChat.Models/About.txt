@@ -1,3 +1,0 @@
-﻿SQL Metal Command:
-
-sqlmetal /server:.\SqlLocal /database:RooChat /namespace:RooChat.Models /code:RooChatDataContext.cs /context:RooChatDataContext /language:csharp /pluralize
