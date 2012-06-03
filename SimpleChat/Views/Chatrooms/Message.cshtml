@@ -1,7 +1,8 @@
 ﻿@model SimpleChat.Models.Message
 <div class="message" id="m-@Model.Id">
-    <h3>@Model.Name %></h3>
+    <h3>@Model.Name</h3>
     <div class="message-content">
+        @Model.Content
         <div class="message-time">@Model.SentOn.ToShortTimeString()</div>
     </div>
 </div>

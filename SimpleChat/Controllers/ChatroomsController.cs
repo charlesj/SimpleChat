@@ -74,7 +74,7 @@ namespace SimpleChat.Controllers
             return View(vm);
         }
 
-        public ActionResult AddMessage(string id, string name, string message)
+        public ActionResult AddMessage(int id, string name, string message)
         {
             var chat = repository.FindByID(id);
             string return_message = string.Empty;
@@ -82,7 +82,7 @@ namespace SimpleChat.Controllers
             {
                 var mess = new Message
                 {
-                    ChatId = id.ToString(),
+                    ChatId = id,
                     Name = name,
                     Content = message,
                     SentOn = DateTime.Now,
@@ -107,17 +107,17 @@ namespace SimpleChat.Controllers
             }
         }
 
-        public ViewResult FetchMessages(string chat_url, string last_m_id)
+        public ViewResult FetchMessages(string chat_url, int last_m_id)
         {
             //var messages = Message.FetchFor(chat_id);
-            var messages = repository.FetchMessagesAfter(chat_url, last_m_id.ToString());
+            var messages = repository.FetchMessagesAfter(chat_url, last_m_id);
             //System.Threading.Thread.Sleep(3000); //Simulate a high latency connection
             return View(messages);
         }
 
-        public ActionResult Transcript(string id)
+        public ActionResult Transcript(int id)
         {
-            var chat = repository.FindByID(id.ToString());
+            var chat = repository.FindByID(id);
             Response.AddHeader("content-disposition", "attachment; filename=Transcript-" + chat.Name + ".html");
             ViewData["chat"] = chat;
             ViewData["messages"] = repository.FetchMessages(chat.Id);

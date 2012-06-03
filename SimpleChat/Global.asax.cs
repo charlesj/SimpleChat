@@ -55,6 +55,7 @@ namespace SimpleChat
             {
                 ConnectionStringName = "RavenDB",
             };
+            Store.Conventions.IdentityPartsSeparator = "-";
             Store.Initialize();
         }
 

@@ -51,12 +51,12 @@ namespace SimpleChat.RavenStore
             return session.Query<Chatroom>().Where(c => c.Url == url).Single();
         }
 
-        public Chatroom FindByID(string id)
+        public Chatroom FindByID(int id)
         {
             return session.Load<Chatroom>(id);
         }
 
-        public void UpdateParticipant(string chatId, string sessionId, string name)
+        public void UpdateParticipant(int chatId, string sessionId, string name)
         {
             //find if exists
             var participant = session.Query<Participant>().Where(p => p.ChatroomId == chatId && p.SessionId == sessionId).SingleOrDefault();
@@ -74,12 +74,12 @@ namespace SimpleChat.RavenStore
             session.SaveChanges();
         }
 
-        public string GetParticipantName(string chatId, string sessionId)
+        public string GetParticipantName(int chatId, string sessionId)
         {
             return session.Query<Participant>().Where(p => p.SessionId == sessionId && p.ChatroomId == chatId).Single().Name;
         }
 
-        public List<Participant> GetParticipants(string ChatId)
+        public List<Participant> GetParticipants(int ChatId)
         {
             return session.Query<Participant>().Where(p => p.ChatroomId == ChatId).ToList();
         }
@@ -90,15 +90,15 @@ namespace SimpleChat.RavenStore
             session.SaveChanges();
         }
 
-        public List<Message> FetchMessages(string ChatId)
+        public List<Message> FetchMessages(int ChatId)
         {
             return session.Query<Message>().Where(m => m.ChatId == ChatId).ToList();
         }
 
-        public List<Message> FetchMessagesAfter(string ChatUrl, string MessageId)
+        public List<Message> FetchMessagesAfter(string ChatUrl, int MessageId)
         {
             var chat = this.FindByUrl(ChatUrl);
-            return session.Query<Message>().Where(m => m.ChatId == chat.Id).ToList();
+            return session.Query<Message>().Where(m => m.Id == chat.Id && m.Id > MessageId).ToList();
         }
     }
 }

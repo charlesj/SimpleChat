@@ -13,15 +13,15 @@ namespace SimpleChat.DataAccess
         bool CheckChatUrl(string toCheck);
         void CreateChatroom(Chatroom toCreate);
         Chatroom FindByUrl(string url);
-        Chatroom FindByID(string id);
+        Chatroom FindByID(int chatId);
 
-        void UpdateParticipant(string chatId, string sessionId, string name);
-        string GetParticipantName(string chatId, string sessionId);
-        List<Participant> GetParticipants(string ChatId);
+        void UpdateParticipant(int chatId, string sessionId, string name);
+        string GetParticipantName(int chatId, string sessionId);
+        List<Participant> GetParticipants(int ChatId);
 
         void AddMessage(Message toAdd);
-        List<Message> FetchMessages(string ChatId);
+        List<Message> FetchMessages(int ChatId);
         //List<Message> FetchMessagesAfter(int ChatId, int MessageId);
-        List<Message> FetchMessagesAfter(string ChatUrl, string MessageId);
+        List<Message> FetchMessagesAfter(string ChatUrl, int MessageId);
     }
 }
