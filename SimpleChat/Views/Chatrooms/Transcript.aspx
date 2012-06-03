@@ -7,8 +7,8 @@
 <head>
     <% var chat = (SimpleChat.Models.Chatroom)ViewData["chat"];
        var messages = (List<SimpleChat.Models.Message>)ViewData["messages"];
-       var markup = new MarkdownSharp.Markdown();
-       markup.AutoHyperlink = true;
+       var markup = new MarkdownDeep.Markdown();
+       //markup.AutoHyperlink = true;
     %>
     <title>Transcript for <%= chat.Name %></title>
     <style>
