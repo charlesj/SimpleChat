@@ -66,7 +66,7 @@ namespace SimpleChat.Controllers
             repository.UpdateParticipant(chat.Id, Session.SessionID,"Big Nose");
             
             var vm = new ChatroomViewModel { ActiveParticipants = repository.GetParticipants(chat.Id), CreatedOn = chat.CreatedOn, Id = chat.Id, LastActionOn = chat.LastActionOn, Messages = repository.FetchMessages(chat.Id), Name = chat.Name, Url = chat.Url };
-            vm.ParticipantName = "Waiting to Load";
+            vm.ParticipantName = "Big Nose";
             return View(vm);
         }
 
