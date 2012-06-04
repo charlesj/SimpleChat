@@ -1,0 +1,9 @@
+# Exclude Files From All Robots:
+
+User-agent: *
+Disallow: /
+
+
+
+
+# End robots.txt file
