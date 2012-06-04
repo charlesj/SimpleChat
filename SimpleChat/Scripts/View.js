@@ -93,7 +93,7 @@
         }
     }
     //this actually sets the check for messages.  We're going to check it once a second.
-    var periodicCheck = setInterval(fetchMessages, 1000);
+    var periodicCheck = setInterval(fetchMessages, 3000); //actually we're not that worried about performance.
 
     //Periodical for handling participants
     var executing_particpants = false;
@@ -109,5 +109,5 @@
             });
         }
     }
-    var participantCheck = setInterval(fetchParticipants, 1000);
+    var participantCheck = setInterval(fetchParticipants, 3000);
 });

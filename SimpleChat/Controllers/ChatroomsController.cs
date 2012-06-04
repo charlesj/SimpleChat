@@ -22,15 +22,6 @@ namespace SimpleChat.Controllers
             this.repository = repository;
         }
 
-
-
-        protected override void Dispose(bool disposing)
-        {
-            repository.Dispose();
-            base.Dispose(disposing);
-        }
-
-        //
         // GET: /Chatrooms/
         [RemoveOldChatroomsFilter]
         public ActionResult Index()
@@ -51,7 +42,7 @@ namespace SimpleChat.Controllers
             }
 
             var chat = repository.CreateChatroom(name, url);
-            Thread.Sleep(5000); // maybe this will help raven catch up;
+            Thread.Sleep(2000); // maybe this will help raven catch up;
             return Redirect("/" + chat.Url);
         }
 
@@ -59,16 +50,23 @@ namespace SimpleChat.Controllers
         [ActionName("View")]
         public ActionResult View_Method(string path)
         {
-            if (path == "Default")
-                return RedirectToAction("Index", "Chatrooms", new { id = 1 });
-            
-            var chat = repository.FindByUrl(path);
+            try
+            {
+                if (path == "Default")
+                    return RedirectToAction("Index", "Chatrooms", new { id = 1 });
 
-            repository.UpdateParticipant(chat.Id, Session.SessionID,"Big Nose");
-            
-            var vm = new ChatroomViewModel { ActiveParticipants = repository.GetParticipants(chat.Id), CreatedOn = chat.CreatedOn, Id = chat.Id, LastActionOn = chat.LastActionOn, Messages = repository.FetchMessages(chat.Id), Name = chat.Name, Url = chat.Url };
-            vm.ParticipantName = "Big Nose";
-            return View(vm);
+                var chat = repository.FindByUrl(path);
+
+                repository.UpdateParticipant(chat.Id, Session.SessionID, "Big Nose");
+
+                var vm = new ChatroomViewModel { ActiveParticipants = repository.GetParticipants(chat.Id), CreatedOn = chat.CreatedOn, Id = chat.Id, LastActionOn = chat.LastActionOn, Messages = repository.FetchMessages(chat.Id), Name = chat.Name, Url = chat.Url };
+                vm.ParticipantName = "Big Nose";
+                return View(vm);
+            }
+            catch
+            {
+                return HttpNotFound("The chatroom you're looking for could not be found - or has not yet finished being created.  You might try again in a few seconds");
+            }
         }
 
         public ActionResult AddMessage(int id, string name, string message)
