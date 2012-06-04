@@ -8,6 +8,7 @@ using SimpleChat.Utils;
 using SimpleChat.DataAccess;
 using SimpleChat.RavenStore;
 using SimpleChat.ViewModels;
+using System.Threading;
 
 namespace SimpleChat.Controllers
 {
@@ -17,7 +18,15 @@ namespace SimpleChat.Controllers
 
         public ChatroomsController()
         {
-            repository = new RavenRepository(MvcApplication.Store.OpenSession());
+            repository = new RavenRepository(MvcApplication.Store);
+        }
+
+
+
+        protected override void Dispose(bool disposing)
+        {
+            repository.Dispose();
+            base.Dispose(disposing);
         }
 
         //
@@ -32,26 +41,16 @@ namespace SimpleChat.Controllers
         public RedirectResult Create(string name, string url)
         {
             if (name == string.Empty || name == null)
-                name = "SimpleChat";
+                name = "Simple Chat";
 
-            if (repository.CheckChatUrl(url))
+            if (!string.IsNullOrEmpty(url) && repository.CheckChatUrl(url))
             {
                 TempData["error"] = "This url is already in use";
                 return Redirect("/");
             }
 
-            var chat = new Chatroom
-            {
-                Name = name,
-                Url = url,
-                CreatedOn = DateTime.Now
-            };
-
-            if (!repository.CheckChatUrl(chat.Url))
-            {
-                chat.Url = repository.BuildChatUrl();
-            }
-            repository.CreateChatroom(chat);
+            var chat = repository.CreateChatroom(name, url);
+            Thread.Sleep(5000); // maybe this will help raven catch up;
             return Redirect("/" + chat.Url);
         }
 
@@ -64,13 +63,10 @@ namespace SimpleChat.Controllers
             
             var chat = repository.FindByUrl(path);
 
-            repository.UpdateParticipant(chat.Id, Session.SessionID, "Unnamed");
-
-            ViewData["name"] = repository.GetParticipantName(chat.Id,Session.SessionID);
-            var vm = new ChatroomViewModel { ActiveParticipants = repository.GetParticipants(chat.Id), CreatedOn = chat.CreatedOn, Id = chat.Id, LastActionOn = chat.LastActionOn, Messages = repository.FetchMessages(chat.Id), Name = chat.Name, Url = chat.Url };
-            vm.ParticipantName = repository.GetParticipantName(chat.Id, Session.SessionID);
-
+            repository.UpdateParticipant(chat.Id, Session.SessionID,"Big Nose");
             
+            var vm = new ChatroomViewModel { ActiveParticipants = repository.GetParticipants(chat.Id), CreatedOn = chat.CreatedOn, Id = chat.Id, LastActionOn = chat.LastActionOn, Messages = repository.FetchMessages(chat.Id), Name = chat.Name, Url = chat.Url };
+            vm.ParticipantName = "Waiting to Load";
             return View(vm);
         }
 

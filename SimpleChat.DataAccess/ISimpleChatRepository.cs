@@ -6,12 +6,12 @@ using SimpleChat.Models;
 
 namespace SimpleChat.DataAccess
 {
-    public interface ISimpleChatRepository
+    public interface ISimpleChatRepository: IDisposable
     {
         void RemoveOldChatrooms();
         string BuildChatUrl();
         bool CheckChatUrl(string toCheck);
-        void CreateChatroom(Chatroom toCreate);
+        Chatroom CreateChatroom(string name, string url);
         Chatroom FindByUrl(string url);
         Chatroom FindByID(int chatId);
 
@@ -21,7 +21,6 @@ namespace SimpleChat.DataAccess
 
         void AddMessage(Message toAdd);
         List<Message> FetchMessages(int ChatId);
-        //List<Message> FetchMessagesAfter(int ChatId, int MessageId);
         List<Message> FetchMessagesAfter(string ChatUrl, int MessageId);
     }
 }

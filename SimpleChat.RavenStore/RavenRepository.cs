@@ -9,98 +9,162 @@ using SimpleChat.Utilities;
 
 namespace SimpleChat.RavenStore
 {
-    public class RavenRepository : ISimpleChatRepository
+    public class RavenRepository : ISimpleChatRepository, IDisposable
     {
         //works per session
-        private IDocumentSession session;
+        //private IDocumentSession session;
+        private IDocumentStore store;
 
-        public RavenRepository(IDocumentSession session)
+        public RavenRepository(IDocumentStore store)
         {
-            this.session = session;
+            this.store = store;
         }
 
         public void RemoveOldChatrooms()
         {
-            var chatrooms = session.Query<Chatroom>().Where(c => c.LastActionOn < 30.Days().Ago());
-            foreach (var chatroom in chatrooms)
+            using (var session = store.OpenSession())
             {
-                session.Delete<Chatroom>(chatroom);
+                var chatrooms = session.Query<Chatroom>().Where(c => c.LastActionOn < 3.Days().Ago());
+                foreach (var chatroom in chatrooms)
+                {
+                    session.Delete<Chatroom>(chatroom);
+                }
+                session.SaveChanges();
             }
-            session.SaveChanges();
         }
 
         public string BuildChatUrl()
         {
-            var gen = new StringIDGenerator();
-            return StringIDGenerator.GetId(7);
+            using (var session = store.OpenSession())
+            {
+                var gen = new StringIDGenerator();
+                var test = StringIDGenerator.GetId(7);
+                while (CheckChatUrl(test))
+                {
+                    test = StringIDGenerator.GetId(7);
+                }
+                return test;
+            }
         }
 
         public bool CheckChatUrl(string toCheck)
         {
-            return session.Query<Chatroom>().Any(c => c.Url == toCheck);
+            using (var session = store.OpenSession())
+            {
+                return session.Query<Chatroom>().Any(c => c.Url == toCheck);
+            }
         }
 
-        public void CreateChatroom(Chatroom toCreate)
+        public Chatroom CreateChatroom(string name, string url)
         {
-            session.Store(toCreate);
-            session.SaveChanges();
+            using (var session = store.OpenSession())
+            {
+                var chat = new Chatroom { 
+                    Name = name, 
+                    CreatedOn = DateTime.Now,  
+                    LastActionOn = DateTime.Now 
+                };
+                if (string.IsNullOrEmpty(url))
+                {
+                    chat.Url = BuildChatUrl();
+                }
+                else
+                {
+                    chat.Url = url;
+                }
+                session.Store(chat);
+                session.SaveChanges();
+                return chat;
+            }
         }
 
         public Chatroom FindByUrl(string url)
         {
-            return session.Query<Chatroom>().Where(c => c.Url == url).Single();
+            using (var session = store.OpenSession())
+            {
+                return session.Query<Chatroom>().Where(c => c.Url == url).Single();
+            }
         }
 
         public Chatroom FindByID(int id)
         {
-            return session.Load<Chatroom>(id);
+            using (var session = store.OpenSession())
+            {
+                return session.Load<Chatroom>(id);
+            }
         }
 
         public void UpdateParticipant(int chatId, string sessionId, string name)
         {
-            //find if exists
-            var participant = session.Query<Participant>().Where(p => p.ChatroomId == chatId && p.SessionId == sessionId).SingleOrDefault();
-            if (participant == null)
+            using (var session = store.OpenSession())
             {
-                participant = new Participant { ChatroomId = chatId, SessionId = sessionId, Name = name };
-                participant.LastSeen = DateTime.Now;
-                session.Store(participant);
+                //find if exists
+                var participant = session.Query<Participant>().Where(p => p.ChatroomId == chatId && p.SessionId == sessionId).SingleOrDefault();
+                if (participant == null)
+                {
+                    participant = new Participant { ChatroomId = chatId, SessionId = sessionId, Name = name };
+                    participant.LastSeen = DateTime.Now;
+                    session.Store(participant);
+                }
+                else
+                {
+                    participant.LastSeen = DateTime.Now;
+                    if (string.IsNullOrEmpty(participant.Name) || name !="Big Nose") //Only change it if it's not big nose
+                    {
+                        participant.Name = name;
+                    }
+                }
+
+                session.SaveChanges();
             }
-            else
-            {
-                participant.LastSeen = DateTime.Now;
-                participant.Name = name;
-            }
-            
-            session.SaveChanges();
         }
 
         public string GetParticipantName(int chatId, string sessionId)
         {
-            return session.Query<Participant>().Where(p => p.SessionId == sessionId && p.ChatroomId == chatId).Single().Name;
+            using (var session = store.OpenSession())
+            {
+                return session.Query<Participant>().Where(p => p.SessionId == sessionId && p.ChatroomId == chatId).Single().Name;
+            }
         }
 
         public List<Participant> GetParticipants(int ChatId)
         {
-            return session.Query<Participant>().Where(p => p.ChatroomId == ChatId).ToList();
+            using (var session = store.OpenSession())
+            {
+                return session.Query<Participant>().Where(p => p.ChatroomId == ChatId).OrderBy(x => x.Name).ToList();
+            }
         }
 
         public void AddMessage(Message toAdd)
         {
-            session.Store(toAdd);
-            session.SaveChanges();
+            using (var session = store.OpenSession())
+            {
+                session.Store(toAdd);
+                session.SaveChanges();
+            }
         }
 
         public List<Message> FetchMessages(int ChatId)
         {
-            return session.Query<Message>().Where(m => m.ChatId == ChatId).ToList();
+            using (var session = store.OpenSession())
+            {
+                return session.Query<Message>().Where(m => m.ChatId == ChatId).ToList();
+            }
         }
 
         public List<Message> FetchMessagesAfter(string ChatUrl, int MessageId)
         {
-            var chat = this.FindByUrl(ChatUrl);
-            var rtn = session.Query<Message>().Where(m => m.ChatId == chat.Id && m.Id > MessageId).ToList();
-            return rtn;
+            using (var session = store.OpenSession())
+            {
+                var chat = this.FindByUrl(ChatUrl);
+                var rtn = session.Query<Message>().Where(m => m.ChatId == chat.Id && m.Id > MessageId).ToList();
+                return rtn;
+            }
+        }
+
+        public void Dispose()
+        {
+            //session.Dispose();
         }
     }
 }
