@@ -11,7 +11,7 @@ using SimpleChat.ViewModels;
 
 namespace SimpleChat.Controllers
 {
-    public class ChatroomsController : BaseController
+    public class ChatroomsController : Controller
     {
         private ISimpleChatRepository repository;
 

@@ -98,7 +98,6 @@
     <Reference Include="System.Web.Helpers" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ChatroomsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
