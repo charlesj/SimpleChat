@@ -148,7 +148,7 @@ namespace SimpleChat.RavenStore
         {
             using (var session = store.OpenSession())
             {
-                return session.Query<Message>().Where(m => m.ChatId == ChatId).ToList();
+                return session.Query<Message>().Where(m => m.ChatId == ChatId).OrderBy(x => x.Id).ToList();
             }
         }
 
