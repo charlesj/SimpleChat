@@ -18,7 +18,7 @@ namespace SimpleChat
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.IgnoreRoute("robots.txt");
+
             routes.MapRoute(
                 "FetchMessages",
                 "chatrooms/FetchMessages/{chat_url}/{last_m_id}",

@@ -112,6 +112,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\View.js" />
     <Content Include="Views\Chatrooms\FetchMessages.aspx" />
     <Content Include="Views\Chatrooms\Index.aspx" />
