@@ -16,9 +16,10 @@ namespace SimpleChat.Controllers
     {
         private ISimpleChatRepository repository;
 
-        public ChatroomsController()
+        public ChatroomsController(ISimpleChatRepository repository)
         {
-            repository = new RavenRepository(MvcApplication.Store);
+            //repository = new RavenRepository(MvcApplication.Store);
+            this.repository = repository;
         }
 
 
