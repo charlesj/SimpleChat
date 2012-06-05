@@ -5,9 +5,9 @@
 <p>Welcome to Simple Chat, the easiest way to setup and use a chatroom.  Here's the process:</p>
 <ol>
     <li>Enter a name for your chatroom</li>
-    <li>If you wish, enter a url.  This is what will appear after simplechat.apphb.com/.  <br />
+    <li>If you wish, enter a url.  This is what will appear after http://@Request.Url.Host/.  <br />
     Example:
-        <blockquote>@Request.Url.Host &#47; MostExcellentChatroom</blockquote>
+        <blockquote>http://@Request.Url.Host/MostExcellentChatroom</blockquote>
     </li>
     <li>Send full url to those who want to join in the chat.</li>
     <li>Chatrooms are automatically deleted after 3 hours of non-use.</li>
@@ -19,7 +19,7 @@
     <p><strong>Chatroom Name</strong></p>
     @Html.TextBox("name") 
     <p><strong>Url</strong> (Optional)</p>
-    @Request.Url.Host @Html.TextBox("url")
+    @Html.TextBox("url")
     <p></p>
     <input type="submit" value="Create" />
 }
