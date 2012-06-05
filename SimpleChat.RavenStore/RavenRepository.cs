@@ -82,7 +82,10 @@ namespace SimpleChat.RavenStore
         {
             using (var session = store.OpenSession())
             {
-                return session.Query<Chatroom>().Where(c => c.Url == url).Single();
+                return session.Query<Chatroom>()
+                    .Customize(x => x.WaitForNonStaleResultsAsOfNow(5.Seconds()))
+                    .Where(c => c.Url == url)
+                    .Single();
             }
         }
 

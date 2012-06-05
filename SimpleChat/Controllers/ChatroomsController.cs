@@ -42,7 +42,6 @@ namespace SimpleChat.Controllers
             }
 
             var chat = repository.CreateChatroom(name, url);
-            Thread.Sleep(2000); // maybe this will help raven catch up;
             return Redirect("/" + chat.Url);
         }
 
