@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Web.Mvc;
 using System.Web.Routing;
 using SimpleChat.Models;
+using SimpleChat.DataAccess;
 
 namespace SimpleChat.Utils
 {
@@ -10,7 +11,8 @@ namespace SimpleChat.Utils
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            //Chatroom.RemoveOldRooms();
+            var repository = System.Web.Mvc.DependencyResolver.Current.GetService<ISimpleChatRepository>();
+            repository.RemoveOldChatrooms();
         }
     }
 }

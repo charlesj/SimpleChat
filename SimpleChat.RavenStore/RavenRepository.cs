@@ -24,10 +24,22 @@ namespace SimpleChat.RavenStore
         {
             using (var session = store.OpenSession())
             {
-                var chatrooms = session.Query<Chatroom>().Where(c => c.LastActionOn < 3.Days().Ago());
+                var chatrooms = session.Query<Chatroom>().Where(c => c.LastActionOn < 3.Hours().Ago());
                 foreach (var chatroom in chatrooms)
                 {
                     session.Delete<Chatroom>(chatroom);
+                    //grab paricipants to delete
+                    var parts = session.Query<Participant>().Where(p => p.ChatroomId == chatroom.Id);
+                    foreach (var part in parts)
+                    {
+                        session.Delete<Participant>(part);
+                    }
+                    //grab messages
+                    var messages = session.Query<Message>().Where(m => m.ChatId == chatroom.Id);
+                    foreach (var message in messages)
+                    {
+                        session.Delete<Message>(message);
+                    }
                 }
                 session.SaveChanges();
             }
@@ -118,6 +130,17 @@ namespace SimpleChat.RavenStore
                     }
                 }
 
+                session.SaveChanges();
+            }
+            UpdateChatLastAction(chatId);
+        }
+
+        public void UpdateChatLastAction(int chatId)
+        {
+            using (var session = store.OpenSession())
+            {
+                var chat = session.Load<Chatroom>(chatId);
+                chat.LastActionOn = DateTime.Now;
                 session.SaveChanges();
             }
         }
