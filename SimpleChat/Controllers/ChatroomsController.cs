@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using SimpleChat.Models;
 using SimpleChat.Utils;
 using SimpleChat.DataAccess;
-using SimpleChat.RavenStore;
 using SimpleChat.ViewModels;
-using System.Threading;
 
 namespace SimpleChat.Controllers
 {
     public class ChatroomsController : Controller
     {
-        private ISimpleChatRepository repository;
+        private readonly ISimpleChatRepository _repository;
 
         public ChatroomsController(ISimpleChatRepository repository)
         {
             //repository = new RavenRepository(MvcApplication.Store);
-            this.repository = repository;
+            _repository = repository;
         }
 
         // GET: /Chatrooms/
@@ -32,34 +27,43 @@ namespace SimpleChat.Controllers
         [RemoveOldChatroomsFilter]
         public RedirectResult Create(string name, string url)
         {
-            if (name == string.Empty || name == null)
+            if (string.IsNullOrEmpty(name))
                 name = "Simple Chat";
 
-            if (!string.IsNullOrEmpty(url) && repository.CheckChatUrl(url))
+            if (!string.IsNullOrEmpty(url) && _repository.CheckChatUrl(url))
             {
                 TempData["error"] = "This url is already in use";
                 return Redirect("/");
             }
 
-            var chat = repository.CreateChatroom(name, url);
+            var chat = _repository.CreateChatroom(name, url);
             return Redirect("/" + chat.Url);
         }
 
         [RemoveOldChatroomsFilter]
         [ActionName("View")]
-        public ActionResult View_Method(string path)
+        public ActionResult ViewMethod(string path)
         {
             try
             {
                 if (path == "Default")
                     return RedirectToAction("Index", "Chatrooms", new { id = 1 });
 
-                var chat = repository.FindByUrl(path);
+                var chat = _repository.FindByUrl(path);
 
-                repository.UpdateParticipant(chat.Id, Session.SessionID, "Big Nose");
-
-                var vm = new ChatroomViewModel { ActiveParticipants = repository.GetParticipants(chat.Id), CreatedOn = chat.CreatedOn, Id = chat.Id, LastActionOn = chat.LastActionOn, Messages = repository.FetchMessages(chat.Id), Name = chat.Name, Url = chat.Url };
-                vm.ParticipantName = "Big Nose";
+                _repository.UpdateParticipant(chat.Id, Session.SessionID, "Big Nose");
+                var name = _repository.GetParticipantName(chat.Id, Session.SessionID);
+                var vm = new ChatroomViewModel
+                             {
+                                 ActiveParticipants = _repository.GetParticipants(chat.Id),
+                                 CreatedOn = chat.CreatedOn,
+                                 Id = chat.Id,
+                                 LastActionOn = chat.LastActionOn,
+                                 Messages = _repository.FetchMessages(chat.Id),
+                                 Name = chat.Name,
+                                 Url = chat.Url,
+                                 ParticipantName = name
+                             };
                 return View(vm);
             }
             catch
@@ -70,8 +74,8 @@ namespace SimpleChat.Controllers
 
         public ActionResult AddMessage(int id, string name, string message)
         {
-            var chat = repository.FindByID(id);
-            string return_message = string.Empty;
+            var chat = _repository.FindByID(id);
+            string returnMessage;
             if (message.Trim() != string.Empty)
             {
                 var mess = new Message
@@ -82,47 +86,44 @@ namespace SimpleChat.Controllers
                     SentOn = DateTime.Now,
                     Ip = "NotLogged"
                 };
-                repository.UpdateParticipant(chat.Id, Session.SessionID, name);
-                repository.AddMessage(mess);
-                return_message = "Message Received";
+                _repository.UpdateParticipant(chat.Id, Session.SessionID, name);
+                _repository.AddMessage(mess);
+                returnMessage = "Message Received";
             }
             else
             {
-                return_message = "Ignoring Empty Message";
+                returnMessage = "Ignoring Empty Message";
             }
             if (Request.IsAjaxRequest())
             {
-                return new ContentResult { Content = return_message };
+                return new ContentResult { Content = returnMessage };
             }
-            else
-            {
-                TempData["message"] = return_message;
-                return Redirect("/" + chat.Url);
-            }
+            TempData["message"] = returnMessage;
+            return Redirect("/" + chat.Url);
         }
 
         public ViewResult FetchMessages(string chat_url, int last_m_id)
         {
             //var messages = Message.FetchFor(chat_id);
-            var messages = repository.FetchMessagesAfter(chat_url, last_m_id);
+            var messages = _repository.FetchMessagesAfter(chat_url, last_m_id);
             //System.Threading.Thread.Sleep(3000); //Simulate a high latency connection
             return View(messages);
         }
 
         public ActionResult Transcript(int id)
         {
-            var chat = repository.FindByID(id);
+            var chat = _repository.FindByID(id);
             Response.AddHeader("content-disposition", "attachment; filename=Transcript-" + chat.Name + ".html");
             ViewData["chat"] = chat;
-            ViewData["messages"] = repository.FetchMessages(chat.Id);
+            ViewData["messages"] = _repository.FetchMessages(chat.Id);
             return View();
         }
 
         public ActionResult Participants(string url, string name)
         {
-            var chat = repository.FindByUrl(url);
-            repository.UpdateParticipant(chat.Id, Session.SessionID, name);
-            return View(repository.GetParticipants(chat.Id));
+            var chat = _repository.FindByUrl(url);
+            _repository.UpdateParticipant(chat.Id, Session.SessionID, name);
+            return View(_repository.GetParticipants(chat.Id));
         }
     }
 }

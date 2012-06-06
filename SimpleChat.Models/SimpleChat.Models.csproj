@@ -8,8 +8,8 @@
     <ProjectGuid>{65FDA494-DD84-46EF-A43B-CFBA267DCE2E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RooChat.Models</RootNamespace>
-    <AssemblyName>RooChat.Models</AssemblyName>
+    <RootNamespace>SimpleChat.Models</RootNamespace>
+    <AssemblyName>SimpleChat.Models</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

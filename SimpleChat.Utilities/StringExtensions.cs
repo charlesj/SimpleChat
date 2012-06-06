@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 
@@ -69,11 +68,11 @@ namespace SimpleChat.Utilities
         public static string[] SplitIntoChunks(this string toSplit, int chunkSize)
         {
             if (string.IsNullOrEmpty(toSplit))
-                return new string[] { "" };
+                return new[] { "" };
 
             int stringLength = toSplit.Length;
 
-            int chunksRequired = (int)Math.Ceiling((decimal)stringLength / (decimal)chunkSize);
+            var chunksRequired = (int)Math.Ceiling(stringLength / (decimal)chunkSize);
             var stringArray = new string[chunksRequired];
 
             int lengthRemaining = stringLength;
@@ -120,7 +119,7 @@ namespace SimpleChat.Utilities
         public static string[] ToLineArray(this string input)
         {
             if (input == null) return new string[] { };
-            return System.Text.RegularExpressions.Regex.Split(input, "\r\n");
+            return Regex.Split(input, "\r\n");
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace SimpleChat.Utilities
         /// <returns>Strongly-typed string list, each containing one line</returns>
         public static List<string> ToLineList(this string input)
         {
-            List<string> output = new List<string>();
+            var output = new List<string>();
             output.AddRange(input.ToLineArray());
             return output;
         }
@@ -167,21 +166,16 @@ namespace SimpleChat.Utilities
         public static string RemoveForbiddenCharacters(this string toUse)
         {
             var filename = toUse.StripPathFromFilename();
-            string[] forbidden_chars = { "&", "/", "\\", " " };
-            foreach (string s in forbidden_chars)
-            {
-                filename = filename.Replace(s, string.Empty);
-            }
-            return filename;
+            string[] forbiddenChars = { "&", "/", "\\", " " };
+            return forbiddenChars.Aggregate(filename, (current, s) => current.Replace(s, string.Empty));
         }
 
         public static string ToSaltedHash(this string toUse)
         {
-            //TODO: Custom salt from config file
+            // TODO: Custom salt from config file
             var transform = string.Concat("Salt", toUse);
-            byte[] result = new byte[transform.Length];
             SHA1 sha = new SHA1CryptoServiceProvider();
-            result = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(transform));
+            byte[] result = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(transform));
             return Convert.ToBase64String(result);
         }
     }

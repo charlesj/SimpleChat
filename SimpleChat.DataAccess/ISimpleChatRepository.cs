@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SimpleChat.Models;
 
 namespace SimpleChat.DataAccess
@@ -17,10 +15,10 @@ namespace SimpleChat.DataAccess
 
         void UpdateParticipant(int chatId, string sessionId, string name);
         string GetParticipantName(int chatId, string sessionId);
-        List<Participant> GetParticipants(int ChatId);
+        List<Participant> GetParticipants(int chatId);
 
         void AddMessage(Message toAdd);
-        List<Message> FetchMessages(int ChatId);
-        List<Message> FetchMessagesAfter(string ChatUrl, int MessageId);
+        List<Message> FetchMessages(int chatId);
+        List<Message> FetchMessagesAfter(string chatUrl, int messageId);
     }
 }

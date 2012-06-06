@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SimpleChat.Models
 {
-    public partial class Chatroom
+    public class Chatroom
     {
         public int Id { get; set; }
         public string Name { get; set; }

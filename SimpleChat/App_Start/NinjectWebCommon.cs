@@ -10,13 +10,13 @@ namespace SimpleChat.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
-    using SimpleChat.DataAccess;
-    using SimpleChat.RavenStore;
+    using DataAccess;
+    using RavenStore;
     using Raven.Client;
 
     public static class NinjectWebCommon 
     {
-        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
@@ -25,7 +25,7 @@ namespace SimpleChat.App_Start
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            Bootstrapper.Initialize(CreateKernel);
         }
         
         /// <summary>
@@ -33,7 +33,7 @@ namespace SimpleChat.App_Start
         /// </summary>
         public static void Stop()
         {
-            bootstrapper.ShutDown();
+            Bootstrapper.ShutDown();
         }
         
         /// <summary>
@@ -56,7 +56,7 @@ namespace SimpleChat.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IDocumentStore>().ToMethod((x) => MvcApplication.Store);
+            kernel.Bind<IDocumentStore>().ToMethod(x => SimpleChatApplication.Store);
             kernel.Bind<ISimpleChatRepository>().To<RavenRepository>();
         }        
     }

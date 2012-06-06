@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Text;
 
 namespace SimpleChat.Utilities
@@ -10,19 +9,19 @@ namespace SimpleChat.Utilities
         public static string ToShortDateEqualLengthString(this DateTime dt)
         {
             var rv = new StringBuilder();
-            if (dt.Month.ToString().Length == 1)
+            if (dt.Month.ToString(CultureInfo.InvariantCulture).Length == 1)
             {
                 rv.Append("0");
             }
-            rv.Append(dt.Month.ToString());
+            rv.Append(dt.Month.ToString(CultureInfo.InvariantCulture));
             rv.Append("/");
-            if (dt.Day.ToString().Length == 1)
+            if (dt.Day.ToString(CultureInfo.InvariantCulture).Length == 1)
             {
                 rv.Append("0");
             }
-            rv.Append(dt.Day.ToString());
+            rv.Append(dt.Day.ToString(CultureInfo.InvariantCulture));
             rv.Append("/");
-            rv.Append(dt.Year.ToString());
+            rv.Append(dt.Year.ToString(CultureInfo.InvariantCulture));
 
             return rv.ToString();
         }

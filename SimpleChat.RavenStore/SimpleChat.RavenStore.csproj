@@ -8,8 +8,8 @@
     <ProjectGuid>{DB9C1A39-66AD-4205-9255-FF986B68E57C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RooChat.RavenStore</RootNamespace>
-    <AssemblyName>RooChat.RavenStore</AssemblyName>
+    <RootNamespace>SimpleChat.RavenStore</RootNamespace>
+    <AssemblyName>SimpleChat.RavenStore</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

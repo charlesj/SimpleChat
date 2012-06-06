@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Web.Mvc;
-using System.Web.Routing;
-using SimpleChat.Models;
+﻿using System.Web.Mvc;
 using SimpleChat.DataAccess;
 
 namespace SimpleChat.Utils
@@ -11,7 +7,7 @@ namespace SimpleChat.Utils
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var repository = System.Web.Mvc.DependencyResolver.Current.GetService<ISimpleChatRepository>();
+            var repository = DependencyResolver.Current.GetService<ISimpleChatRepository>();
             repository.RemoveOldChatrooms();
         }
     }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SimpleChat.Utilities
+﻿namespace SimpleChat.Utilities
 {
     public static class BoolExtensions
     {
